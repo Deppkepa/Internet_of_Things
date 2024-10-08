@@ -1,119 +1,83 @@
-#define LED_PIN1 13 //Зелёный
-#define LED_PIN2 12 //Жёлтый (синий)
-#define LED_PIN3 10 //Красный
+#define RED_PIN 10
+#define YELLOW_PIN 12
+#define GREEN_PIN 13
 
-#define COMMAND_MANUAL 'm' //команда на ручное управление
-#define COMMAND_AUTO 'a' //команда на автоматическое управление
+#define GREEN_TIME 10000
+#define RED_TIME 7000
+#define YELLOW_TIME 1000
+#define BLINK_GREEN_TIME 2000
+#define INTERVAL 200
 
-#define TRAFFIC_AUTO 0
-#define TRAFFIC_MANUAL 1
-
-#define LED_RED 'r' //метка красного светодиода
-#define LED_GREEN 'g' //метка зелёного светодиода
-#define LED_YELLOW 'y' //метка жёлтого(синего) светодиода
-
-#define STATE_LED_RED 0
-#define STATE_LED_GREEN 1
-#define STATE_LED_YELLOW 2
-
-#define MANUAL_INTERVAL 60
-
-#define GREEN_USUAL_INTERVAL 10000
-#define YELLOW_USUAL_INTERVAL 1000
-#define YELLOW_UNCOMMON_INTERVAL 3000
-#define RED_USUAL_INTERVAL 7000
-
-/*
-Запрограммировать автоматический режим работы светофора:
- зеленый (10 с) - мигающий зеленый (2 с) - желтый (1с) - красный (7 с) - желтый (1с) - зеленый (10 с).
- Добавить возможность перевода на ручное управление через команду с ПК:
- запрос на перевод (одна команда) и режим в котором светофор будет работать зеленый или красный (вторая команда).
- Если текущий режим не соответствует запрошенному, сделать перевод в него через желтый (3с).
- Ограничить ручной режим на 60 секунд - далее происходит возврат к автоматическому режиму
- даже если запроса на возврат не было.
- В коде не должно быть задержек (delay).
-*/
-
-int traffic_status=TRAFFIC_AUTO; //статус по умолчанию - автоматическое управление
-long int blink_start;
-char led;
-long int manual_start, green_start, yellow_start, red_start, green_blink_start;
+enum State { RED, YELLOW, GREEN, BLINK_GREEN }; // Состояния светофора
+State start_color = GREEN; // Начальное состояние
+State memory = GREEN;
+unsigned long end_time = 0;
+int count = 0;
+uint32_t start_blink_time, end_blink_time = 0;
+bool led_stat = true;
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(LED_PIN1, OUTPUT); 
-  pinMode(LED_PIN2, OUTPUT); 
-  pinMode(LED_PIN3, OUTPUT); 
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(YELLOW_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
 }
 
-void update_state(){
-	if (manual_start){
-		if (millis() <= manual_start+MANUAL_INTERVAL){
-			traffic_status=TRAFFIC_AUTO;
-		}
-	}
-	if (Serial.available() > 0) {
-		char cmd = Serial.read();
-		if(cmd == COMMAND_AUTO){
-			traffic_status=TRAFFIC_AUTO;
-		}
-		else if (cmd == COMMAND_MANUAL){
-			manual_start=millis();
-			traffic_status=TRAFFIC_MANUAL;
-		}
-		else if(cmd == LED_RED){
-			if (traffic_status==TRAFFIC_MANUAL){
-				led=STATE_LED_RED;
-			} else{
-				Serial.println("Cannot perform this command. - Auto mode");
-			}
-		}
-		else if (cmd ==LED_GREEN){
-			if (traffic_status==TRAFFIC_MANUAL){
-				led=STATE_LED_GREEN;
-			} else{
-				Serial.println("Cannot perform this command. - Auto mode");
-			}
-		} else{
-			Serial.println("Unknown command");
-		}
-	}
-}
+void avto_traffic_lights() {
+  unsigned long start_time = millis();
+  switch (start_color) {
+      case GREEN:
+        if (start_time - end_time >= GREEN_TIME) {
+          end_time = start_time;
+          start_color = BLINK_GREEN;
+          memory = GREEN;
+        }
+        digitalWrite(RED_PIN, LOW);
+        digitalWrite(YELLOW_PIN, LOW);
+        digitalWrite(GREEN_PIN, HIGH);
+        break;
 
+      case BLINK_GREEN: 
+        if (start_time - end_time >= BLINK_GREEN_TIME) { 
+            end_time = start_time; 
+            start_color = YELLOW;
+        } 
+          start_blink_time = millis();
+        if( ( start_blink_time - end_blink_time ) > INTERVAL || start_blink_time < end_blink_time ){
+          end_blink_time = start_blink_time;      
+          digitalWrite(13, led_stat); 
+          led_stat = !led_stat;
+        }
+        break;
 
-void process_state(){
-	if (traffic_status==TRAFFIC_AUTO){
-		//
-		//горит зелёный 10 секунд
-		digitalWrite(LED_PIN1, HIGH);// включаем светодиод
-		delay(10000);                // ждем 10 секунд
-		digitalWrite(LED_PIN1, LOW); // выключаем светодиод
-  
-		//мигает зелёный 2 секунды
-  
-		//горит жёлтый (синий) 1 секунду
-		digitalWrite(LED_PIN2, HIGH); 
-		delay(1000);                   // ждем 1 секунду
-		digitalWrite(LED_PIN2, LOW);     
+      case YELLOW:
+        if (start_time - end_time >= YELLOW_TIME) {
+          end_time = start_time;
+          if (memory == GREEN) {
+            start_color = RED;
+          } else {
+            start_color = GREEN;
+          }
+        }
+        digitalWrite(RED_PIN, LOW);
+        digitalWrite(YELLOW_PIN, HIGH);
+        digitalWrite(GREEN_PIN, LOW);
+        break;
 
-		//горит красный 7 секунд
-		digitalWrite(LED_PIN3, HIGH); 
-		delay(7000);                   // ждем 7 секунд
-		digitalWrite(LED_PIN3, LOW); 
+      case RED:
+        if (start_time - end_time >= GREEN_TIME) {
+          end_time = start_time;
+          start_color = YELLOW;
+          memory = RED;
+        }
+        digitalWrite(RED_PIN, HIGH);
+        digitalWrite(YELLOW_PIN, LOW);
+        digitalWrite(GREEN_PIN, LOW);
+        break;
+  }
+};
 
-		//горит жёлтый 1 секунду
-		digitalWrite(LED_PIN2, HIGH); 
-		delay(1000);                   // ждем 1 секунду
-		digitalWrite(LED_PIN2, LOW);
-	}
-	else if (traffic_status==TRAFFIC_MANUAL){
-		int k=0; 
-	}
-
-}
 
 void loop() {
-  update_state();
-  process_state();  
+  avto_traffic_lights();
 }
