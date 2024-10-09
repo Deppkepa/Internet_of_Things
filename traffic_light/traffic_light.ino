@@ -41,13 +41,15 @@ void manual_traffic_lights() {
 		
 		if ((cmd == SET_TRAFFIC_GREEN || cmd == SET_TRAFFIC_RED || cmd==SET_TRAFFIC_YELLOW) && cmd!=manual_color){
 			manual_color=cmd;
+    } else if(cmd == manual_color){
+      return;
     }
   }
 	
 	switch(manual_color){
 		case SET_TRAFFIC_RED:
 			if (start_color == RED){
-        start_color=RED;
+        end_time=millis();
 				digitalWrite(RED_PIN, HIGH);
 				digitalWrite(YELLOW_PIN, LOW);
 				digitalWrite(GREEN_PIN, LOW);
@@ -65,7 +67,7 @@ void manual_traffic_lights() {
 			break;
 		case SET_TRAFFIC_GREEN:
 			if (start_color == GREEN){
-        start_color=GREEN;
+        end_time=millis();
 				digitalWrite(RED_PIN, LOW);
 				digitalWrite(YELLOW_PIN, LOW);
 				digitalWrite(GREEN_PIN, HIGH);
