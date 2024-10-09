@@ -9,5 +9,21 @@
 4. Soldering_LedPhoto
 
 ##  Светофор
-[картинка]{https://github.com/Deppkepa/Internet_of_Things/blob/main/images/null%20(1).png}
+Реализация:
 
+Привиальная схема соединения нашего светофора.
+
+![картинка 1](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/null%20(1).png)
+
+Сборка в симуляторе:
+
+![картинка 2](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/Grand%20Tumelo-Jaban.png)
+
+Провода:
+
+* Красный провод - 10 пин
+* Зеленый провод - 13 пин
+* Желтый провод - 12 пин
+* Черный провод - GND
+
+Результат представлен в виде видео по сылке в яндекс облако: 
