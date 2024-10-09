@@ -39,7 +39,7 @@ void manual_traffic_lights() {
 	if (Serial.available() > 0) {
 		char cmd = Serial.read();
 		
-		if ((cmd == SET_TRAFFIC_GREEN || cmd == SET_TRAFFIC_RED) && cmd!=manual_color){
+		if ((cmd == SET_TRAFFIC_GREEN || cmd == SET_TRAFFIC_RED || cmd==SET_TRAFFIC_YELLOW) && cmd!=manual_color){
 			manual_color=cmd;
     }
   }
