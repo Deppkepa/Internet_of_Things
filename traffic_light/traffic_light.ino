@@ -49,6 +49,7 @@ void manual_traffic_lights() {
 	switch(manual_color){
 		case SET_TRAFFIC_RED:
 			if (start_color == RED){
+        start_color=RED;
 				digitalWrite(RED_PIN, HIGH);
 				digitalWrite(YELLOW_PIN, LOW);
 				digitalWrite(GREEN_PIN, LOW);
@@ -66,6 +67,7 @@ void manual_traffic_lights() {
 			break;
 		case SET_TRAFFIC_GREEN:
 			if (start_color == GREEN){
+        start_color=GREEN;
 				digitalWrite(RED_PIN, LOW);
 				digitalWrite(YELLOW_PIN, LOW);
 				digitalWrite(GREEN_PIN, HIGH);
