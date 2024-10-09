@@ -39,10 +39,8 @@ void manual_traffic_lights() {
 	if (Serial.available() > 0) {
 		char cmd = Serial.read();
 		
-		if (cmd == SET_TRAFFIC_GREEN || cmd == SET_TRAFFIC_RED){
+		if ((cmd == SET_TRAFFIC_GREEN || cmd == SET_TRAFFIC_RED) && cmd!=manual_color){
 			manual_color=cmd;
-    } else {
-      Serial.println("Wrong command");
     }
   }
 	
@@ -85,7 +83,7 @@ void manual_traffic_lights() {
 			break;
 		case SET_TRAFFIC_YELLOW:
 			memory=start_color;
-			//start_color=YELLOW;
+			start_color=YELLOW;
 			digitalWrite(RED_PIN, LOW);
 			digitalWrite(YELLOW_PIN, HIGH);
 			digitalWrite(GREEN_PIN, LOW);
