@@ -3,7 +3,7 @@
 
 Содержание:
 
-1. Светофор
+1. Светофор [traffic_light](https://github.com/Deppkepa/Internet_of_Things/tree/main/traffic_light)
 2. Детектор источника света
 3. LedPhotoDistributedSerial
 4. Soldering_LedPhoto
