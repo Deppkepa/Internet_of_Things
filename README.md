@@ -33,6 +33,7 @@
 Реализация:
 
 Принципиальная схема соединения:
+![картинка 4](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/детектор%20источника%20света.png)
 
 Сборка в симуляторе:
 ![картинка 3](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/Tremendous%20Borwo-Duup.png)
