@@ -36,7 +36,7 @@
 ![картинка 4](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/детектор%20источника%20света.png)
 
 Сборка в симуляторе:
-![картинка 3](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/Tremendous%20Borwo-Duup.png)
+![картинка 5](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/Tremendous%20Borwo-Duup.png)
 
 Провода:
 
@@ -48,3 +48,18 @@
 * Фиолетовый провод - A2
 
 Результат представлен в виде видео по сылке в яндекс облако: https://disk.yandex.ru/d/dWRPdsrrdzvtHA
+
+## 3. LedPhotoDistributedSeria
+Реализация:
+
+Принципиальная схема соединения:
+![картинка 6]()
+
+Сборка в симуляторе:
+![картинка 7]()
+
+Провода:
+
+Результат представлен в виде видео по сылке в яндекс облако:
+
+Инструкция по запуску:
