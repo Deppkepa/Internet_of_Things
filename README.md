@@ -53,7 +53,7 @@
 **Реализация:**
 
 **Принципиальная схема соединения:**
-![картинка 6]()
+![картинка 6](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/микро_светодиод_и_резистор.png)
 
 **Сборка в симуляторе:**
 ![картинка 7](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/микроконтролеры.png)
