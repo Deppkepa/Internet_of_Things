@@ -43,10 +43,12 @@ void process_state(){
   if (state==STATE_LED_ON){
     digitalWrite(LED_PIN, HIGH);
     led_status=HIGH;
+    Serial.print("qwerty");
   } 
   else if (state==STATE_LED_OFF){
     digitalWrite(LED_PIN, LOW);
     led_status=LOW;
+    Serial.print("qwertyu");
   }
   else if (state==STATE_LED_BLINK){
     if(millis() <=blink_start+BLINK_INTERVAL and led_status==LOW){

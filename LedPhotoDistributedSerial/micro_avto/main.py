@@ -4,8 +4,8 @@ import time
 responses = {"d": 7,
              "u": 6,
              "p": 4} # zero fill to
-port_led = "COM7"
-port_photo = "COM9"
+port_led = "COM9"
+port_photo = "COM8"
 connection_led = serial.Serial(port_led, timeout=1, baudrate=9600)
 connection_photo = serial.Serial(port_photo, timeout=1, baudrate=9600)
 
@@ -20,6 +20,7 @@ def send_command(cmd:str,
 
         resp: bytes = connection.read(response_len)
         str_resp = resp.decode()
+        
     return str_resp
 
 
@@ -29,7 +30,7 @@ while True:
     if photo_val_resp:
         photo_val = int(photo_val_resp.replace("\n",""))
         print(photo_val)
-        if photo_val > 200:
+        if photo_val > 500:
 
             resp = send_command('u', responses['u'], connection_led)
 
