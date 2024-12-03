@@ -18,7 +18,7 @@ broker = "broker.emqx.io"
 h = hashlib.new('sha256')
 mac = get_mac()
 h.update(str(mac).encode())
-global pub_id
+
 pub_id = h.hexdigest()[:10]
 sub_id=h.hexdigest()[10:]
 print(f"Listen me at id {pub_id}")
@@ -28,27 +28,37 @@ average_number=deque(maxlen=100)
 
 print("Connecting to broker", broker)
 print(client.connect(broker))
-client.loop_start()
 print("Publishing")
 
-global pub_id_got
+
 pub_id_got=False
 subbed=False
 
 def on_message(client,userdata,message):
     try:
         data=message.payload.decode('utf-8')
+        global pub_id_got
         pub_id_got=True
         print("received message = ", data, f" on topic: Client_sub/{pub_id}")
             
     except:
         print(message.payload)
+
 client.on_message=on_message
+client.loop_start()
 client.subscribe(f"Client_sub/{pub_id}")
 while not pub_id_got:
-    client.publish("Tetsushiro/Yuji/Get/Pub/Id",pub_id)
+    print(client.publish("lab/tetsushiro/yuji",pub_id))
+    time.sleep(10)
+    print(pub_id_got)
+client.disconnect()
+client.loop_stop()
+
+
 print("pub_id_got!")
 
+client.connect(broker)
+client.loop_start()
 
 
 def manipulate_queue(queue):
