@@ -5,7 +5,8 @@ from uuid import getnode as get_mac
 import hashlib, serial
 
 broker="broker.emqx.io"
-pub_id="61e4da20fd"
+pub_id="d97d31bf4c"
+global state
 
 if not pub_id:
     raise RuntimeError("Publisher id can not be found")
@@ -13,8 +14,7 @@ if not pub_id:
 h=hashlib.new('sha256')
 mac=get_mac()
 h.update(str(mac).encode())
-sub_id= h.hexdigest()[10:20]
-# print(sub_id)
+sub_id=h.hexdigest()[10:20]
 
 responses = {"d": 7,
              "u": 6} # zero fill to
@@ -33,14 +33,25 @@ def send_command(cmd:str,
     return str_resp
 
 def on_message(client,userdata,message):
-    data=int(message.payload.decode('utf-8'))
-    if data > 500:
-        resp = send_command('u', responses['u'], connection_led)
-
-    else:
-        resp = send_command('d', responses['d'], connection_led)
+    try:
+        data=int(message.payload.decode('utf-8'))
+        if state == "instant":
+            
+        
+##            if data > 255/2:
+##                resp = send_command('u', responses['u'], connection_led)
+##
+##            else:
+##                resp = send_command('d', responses['d'], connection_led)
+            print("received message = ", data, f" on topic: {state}")
+        elif state == "averge":
+            
+        
+            
+            print("received message = ", data, f" on topic: {state}")
+    except:
+        print(message.payload)
     
-    print("received message = ", data)
 
 client=mqtt_client.Client(
     mqtt_client.CallbackAPIVersion.VERSION2,
@@ -53,9 +64,14 @@ client.on_message=on_message
 print("Connecting to broker ", broker)
 client.connect(broker)
 client.loop_start()
+
+state=input("Введите топик: ")
+
+
+while state not in ["instant","averge","stream","activate_stream","min","max"]:
+    state=input("Введите топик: ")
 print("Subscribing")
-# while True:
-client.subscribe(f"lab/{pub_id}/led/state")
+client.subscribe(f"lab/{pub_id}/photo/{state}")
 time.sleep(1800)
 client.disconnect()
 client.loop_stop()
