@@ -24,13 +24,11 @@ sub_id=h.hexdigest()[10:]
 print(f"Listen me at id {pub_id}")
 
 client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2, pub_id)
-client_sub=mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2, sub_id)
 average_number=deque(maxlen=100)
 
 print("Connecting to broker", broker)
-print(client.connect(broker), client_sub.connect(broker))
+print(client.connect(broker))
 client.loop_start()
-client_sub.loop_start()
 print("Publishing")
 
 global pub_id_got
@@ -45,12 +43,9 @@ def on_message(client,userdata,message):
             
     except:
         print(message.payload)
-client_sub.on_message=on_message
-
+client.on_message=on_message
+client.subscribe(f"Client_sub/{pub_id}")
 while not pub_id_got:
-    if not subbed:
-        client_sub.subscribe(f"Client_sub/{pub_id}")
-        subbed=True
     client.publish("Tetsushiro/Yuji/Get/Pub/Id",pub_id)
 print("pub_id_got!")
 

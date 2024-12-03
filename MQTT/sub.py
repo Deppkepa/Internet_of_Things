@@ -14,7 +14,6 @@ h=hashlib.new('sha256')
 mac=get_mac()
 h.update(str(mac).encode())
 sub_id=h.hexdigest()[10:20]
-pub_id2=h.hexdigest()[:10]
 
 responses = {"d": 7,
              "u": 6} # zero fill to
@@ -59,28 +58,16 @@ client=mqtt_client.Client(
     mqtt_client.CallbackAPIVersion.VERSION2,
     sub_id
 )
-client_pub=mqtt_client.Client(
-    mqtt_client.CallbackAPIVersion.VERSION2,
-    pub_id2
-)
-client_sub=mqtt_client.Client(
-    mqtt_client.CallbackAPIVersion.VERSION2,
-    "cute_id_tshiro_yuji"
-)
-client.on_message=on_message
-client_sub.on_message=on_message2
+
+client.on_message=on_message2
 subbed2=False
 
 
 print("Connecting to broker ", broker)
 client.connect(broker)
-client_pub.connect(broker)
-client_sub.connect(broker)
-
+client.subscribe("Tetsushiro/Yuji/Get/Pub/Id")
 while not pub_id:
-    if not subbed2:
-        client_sub.subscribe("Tetsushiro/Yuji/Get/Pub/Id")
-        subbed2=True
+    continue
 
 
 client.loop_start()
