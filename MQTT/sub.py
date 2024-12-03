@@ -34,21 +34,15 @@ def send_command(cmd:str,
 
 def on_message(client,userdata,message):
     try:
-        data=int(message.payload.decode('utf-8'))
-        if state == "instant":
+        data=message.payload.decode('utf-8')
+        if state not in ["instant","averge"]:
+            value,_min,_max=list(map(int, data.split(" ")))
+            if value > sum([_min,_max])/2:
+                resp = send_command('u', responses['u'], connection_led)
+            else:
+                resp = send_command('d', responses['d'], connection_led)
+        print("received message = ", data, f" on topic: {state}")
             
-        
-##            if data > 255/2:
-##                resp = send_command('u', responses['u'], connection_led)
-##
-##            else:
-##                resp = send_command('d', responses['d'], connection_led)
-            print("received message = ", data, f" on topic: {state}")
-        elif state == "averge":
-            
-        
-            
-            print("received message = ", data, f" on topic: {state}")
     except:
         print(message.payload)
     
@@ -59,8 +53,6 @@ client=mqtt_client.Client(
 )
 client.on_message=on_message
 
-
-
 print("Connecting to broker ", broker)
 client.connect(broker)
 client.loop_start()
@@ -68,10 +60,11 @@ client.loop_start()
 state=input("Введите топик: ")
 
 
-while state not in ["instant","averge","stream","activate_stream","min","max"]:
+while state not in ["instant","averge","min_max"]:
     state=input("Введите топик: ")
 print("Subscribing")
 client.subscribe(f"lab/{pub_id}/photo/{state}")
 time.sleep(1800)
 client.disconnect()
 client.loop_stop()
+

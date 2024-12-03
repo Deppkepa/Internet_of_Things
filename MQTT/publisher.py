@@ -50,32 +50,37 @@ def send_command(cmd:str,
     return str_resp
 instant_time_start=0
 averge_time_start=0
+min_max_time_start=0
+_min,_max=0,0
 while True:
 
     photo_val_resp: str = send_command('p', responses['p'], connection_photo)
     if photo_val_resp:
         photo_val = int(photo_val_resp.replace("\n", "").replace("b",''))
+        _min=photo_val if photo_val<_min else _min
+        _max=photo_val if photo_val>_max else _max
         
         if time.time() >=instant_time_start+0.5:
                 client.publish(f"lab/{pub_id}/photo/instant", photo_val)
                 print("photo_val: ",photo_val)
                 instant_time_start=time.time()
+                
         if len(average_number)<100:
             average_number.append(photo_val)
         elif len(average_number) >= 100:
-            
-            #print(num)
             average_number.popleft()
             average_number.append(photo_val)
-            #average_number.clear()
         num = manipulate_queue(average_number)
         if time.time() >=averge_time_start+0.5:
-            client.publish(f"lab/{pub_id}/photo/averge", str(num))
+            client.publish(f"lab/{pub_id}/photo/averge", num)
             print("num: ", num)
             averge_time_start=time.time()
         
-        #print(photo_val)
+        if time.time() >=min_max_time_start+0.5:
+            client.publish(f"lab/{pub_id}/photo/min_max", f"{photo_val} {_min} {_max}")
+            print("min_max: ",f"{photo_val} {_min} {_max}")
+            min_max_time_start=time.time()
         
-#client.publish(f"lab/{pub_id}/led/state","")
+
 client.disconnect()
 client.loop_stop()
