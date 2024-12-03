@@ -5,16 +5,16 @@ from uuid import getnode as get_mac
 import hashlib, serial
 
 broker="broker.emqx.io"
-pub_id="d97d31bf4c"
+global pub_id
+pub_id=""
 global state
-
-if not pub_id:
-    raise RuntimeError("Publisher id can not be found")
+global client_pub
 
 h=hashlib.new('sha256')
 mac=get_mac()
 h.update(str(mac).encode())
 sub_id=h.hexdigest()[10:20]
+pub_id2=h.hexdigest()[:10]
 
 responses = {"d": 7,
              "u": 6} # zero fill to
@@ -45,17 +45,46 @@ def on_message(client,userdata,message):
             
     except:
         print(message.payload)
-    
+def on_message2(client,userdata,message):
+    try:
+        data=message.payload.decode('utf-8')
+        pub_id=data
+        client_pub.publish(f"Client_sub/{data}","Got it!")
+        print("received message = ", data, f" on topic: Tetsushiro/Yuji/Get/Pub/Id")
+            
+    except:
+        print(message.payload)   
 
 client=mqtt_client.Client(
     mqtt_client.CallbackAPIVersion.VERSION2,
     sub_id
 )
+client_pub=mqtt_client.Client(
+    mqtt_client.CallbackAPIVersion.VERSION2,
+    pub_id2
+)
+client_sub=mqtt_client.Client(
+    mqtt_client.CallbackAPIVersion.VERSION2,
+    "cute_id_tshiro_yuji"
+)
 client.on_message=on_message
+client_sub.on_message=on_message2
+subbed2=False
+
 
 print("Connecting to broker ", broker)
 client.connect(broker)
+client_pub.connect(broker)
+client_sub.connect(broker)
+
+while not pub_id:
+    if not subbed2:
+        client_sub.subscribe("Tetsushiro/Yuji/Get/Pub/Id")
+        subbed2=True
+
+
 client.loop_start()
+client.subscribe()
 
 state=input("Введите топик: ")
 

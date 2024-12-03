@@ -18,17 +18,41 @@ broker = "broker.emqx.io"
 h = hashlib.new('sha256')
 mac = get_mac()
 h.update(str(mac).encode())
+global pub_id
 pub_id = h.hexdigest()[:10]
+sub_id=h.hexdigest()[10:]
 print(f"Listen me at id {pub_id}")
 
 client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2, pub_id)
+client_sub=mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2, sub_id)
 average_number=deque(maxlen=100)
 
 print("Connecting to broker", broker)
-print(client.connect(broker))
+print(client.connect(broker), client_sub.connect(broker))
 client.loop_start()
+client_sub.loop_start()
 print("Publishing")
 
+global pub_id_got
+pub_id_got=False
+subbed=False
+
+def on_message(client,userdata,message):
+    try:
+        data=message.payload.decode('utf-8')
+        pub_id_got=True
+        print("received message = ", data, f" on topic: Client_sub/{pub_id}")
+            
+    except:
+        print(message.payload)
+client_sub.on_message=on_message
+
+while not pub_id_got:
+    if not subbed:
+        client_sub.subscribe(f"Client_sub/{pub_id}")
+        subbed=True
+    client.publish("Tetsushiro/Yuji/Get/Pub/Id",pub_id)
+print("pub_id_got!")
 
 
 
