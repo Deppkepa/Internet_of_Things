@@ -8,7 +8,7 @@ void process_state(){
   if (Serial.available()>0){
     char cmd = Serial.read();
     if (cmd == 'p'){
-      int photo_val = analogRead(PHOTO_SENSOR_PIN1);
+      int photo_val = analogRead(PHOTO_SENSOR_PIN1)/4;
       // Serial.print("Photo val = ");
       // Serial.print(photo_val);
       // Serial.print("\n");

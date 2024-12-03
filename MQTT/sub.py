@@ -5,7 +5,7 @@ from uuid import getnode as get_mac
 import hashlib, serial
 
 broker="broker.emqx.io"
-pub_id="d97d31bf4c"
+pub_id="61e4da20fd"
 
 if not pub_id:
     raise RuntimeError("Publisher id can not be found")
@@ -13,7 +13,8 @@ if not pub_id:
 h=hashlib.new('sha256')
 mac=get_mac()
 h.update(str(mac).encode())
-sub_id=h.hexdigest()[10:20]
+sub_id= h.hexdigest()[10:20]
+# print(sub_id)
 
 responses = {"d": 7,
              "u": 6} # zero fill to
@@ -53,7 +54,7 @@ print("Connecting to broker ", broker)
 client.connect(broker)
 client.loop_start()
 print("Subscribing")
-#while True:
+# while True:
 client.subscribe(f"lab/{pub_id}/led/state")
 time.sleep(1800)
 client.disconnect()
