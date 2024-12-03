@@ -5,10 +5,9 @@ from uuid import getnode as get_mac
 import hashlib, serial
 
 broker="broker.emqx.io"
-global pub_id
+
 pub_id=""
 global state
-global client_pub
 
 h=hashlib.new('sha256')
 mac=get_mac()
@@ -47,11 +46,13 @@ def on_message(client,userdata,message):
 def on_message2(client,userdata,message):
     try:
         data=message.payload.decode('utf-8')
+        global pub_id
         pub_id=data
-        client_pub.publish(f"Client_sub/{data}","Got it!")
+        client.publish(f"Client_sub/{data}","Got it!")
         print("received message = ", data, f" on topic: Tetsushiro/Yuji/Get/Pub/Id")
             
-    except:
+    except Exception as e:
+        print(e)
         print(message.payload)   
 
 client=mqtt_client.Client(
@@ -59,20 +60,30 @@ client=mqtt_client.Client(
     sub_id
 )
 
+
 client.on_message=on_message2
-subbed2=False
+
 
 
 print("Connecting to broker ", broker)
 client.connect(broker)
-client.subscribe("Tetsushiro/Yuji/Get/Pub/Id")
-while not pub_id:
-    continue
+
+print("Waiting for pub_id")
+
+
 
 
 client.loop_start()
-client.subscribe()
+client.subscribe("lab/tetsushiro/yuji")
+while not pub_id:
+    continue
+print(f"Got pub id: {pub_id}")
 
+client.loop_stop()
+
+
+client.on_message=on_message
+client.loop_start()
 state=input("Введите топик: ")
 
 
