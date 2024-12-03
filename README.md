@@ -6,6 +6,7 @@
 1. Светофор [traffic_light](https://github.com/Deppkepa/Internet_of_Things/tree/main/traffic_light)
 2. Детектор источника света [light_source_detector](https://github.com/Deppkepa/Internet_of_Things/tree/main/light_source_detector)
 3. [LedPhotoDistributedSerial](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedPhotoDistributedSerial)
+4. [MQTT](https://github.com/Deppkepa/Internet_of_Things/tree/main/MQTT)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
@@ -76,3 +77,24 @@
  6. Открыть файл `main.py из папки `micro_avto` и поменять в соотвествии с вашими портами на ардуинках (в файле указаны порты для оп windows)
  7. Запустить `main.py`
  8. Готово
+
+## 4. MQTT
+**Реализация:**
+
+**Принципиальная схема соединения:**
+![картинка 8](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/MQTT(схема%20ручками).png)
+
+**Сборка в симуляторе:**
+
+Собрать отдельно платы для фоторезистора и для светодиода. Эти схемы можно посмотреть выше. Обязательно на разных платах и подключаются к разным пк!
+
+**Результат представлен в виде видео по сылке в яндекс облако:** 
+
+**Инструкция по запуску:**
+ 1. Скачать репозиторий по удобному способу
+ 2. Зайти в папку с заданием: [MQTT](https://github.com/Deppkepa/Internet_of_Things/tree/main/MQTT)
+ 3. Выбрать какая плата будет отвечать за светодиод и какая за фоторезистор. Далее выбрать пк, которые будут отвечать за светодиод и фоторезистор.
+ 4. Прошить плату фоторезистора (`Photoval.ino`), а затем запустить код `publisher.py`. Эти файлы отвечают за фоторезистор. (не забыть поменять "COM" в `publisher.py`)
+ 6. Прошить плату светодиода (`Led.ino`), а затем запустить код `sub.py`. Эти файлы отвечают за светодиод. (не забыть поменять "COM" в `sub.py`)
+ 7. Подождать пока найдётся `pub_id`
+ 8. Выбрать топик (`instant`, `averge`, `min_max`)
