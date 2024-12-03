@@ -10,7 +10,7 @@ responses = {"d": 7,
              "u": 6,
              "p": 4} # zero fill to
 
-port_photo = "COM10"
+port_photo = "COM8"
 connection_photo = serial.Serial(port_photo, timeout=1, baudrate=9600)
 
 broker = "broker.emqx.io"
@@ -19,7 +19,7 @@ h = hashlib.new('sha256')
 mac = get_mac()
 h.update(str(mac).encode())
 pub_id = h.hexdigest()[:10]
-print(f"Listem me at id {pub_id}")
+print(f"Listen me at id {pub_id}")
 
 client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2, pub_id)
 
@@ -34,7 +34,7 @@ def send_command(cmd:str,
     str_resp: str = ''
     connection.write(cmd.encode())
     if response_len > 0:
-        print(connection.read(response_len))
+        #print(connection.read(response_len))
         resp: bytes = connection.read(response_len)
         str_resp = resp.decode()
     return str_resp
@@ -43,9 +43,11 @@ while True:
 
     photo_val_resp: str = send_command('p', responses['p'], connection_photo)
     if photo_val_resp:
-        photo_val = int(photo_val_resp.replace("\n", ""))
+        photo_val = int(photo_val_resp.replace("\n", "").replace("b",''))
         # print(f"Publishing {photo_val}")
         client.publish(f"lab/{pub_id}/led/state", photo_val)
-
+        print(photo_val)
+        
+#client.publish(f"lab/{pub_id}/led/state","")
 client.disconnect()
 client.loop_stop()
