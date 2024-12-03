@@ -17,7 +17,7 @@ sub_id=h.hexdigest()[10:20]
 
 responses = {"d": 7,
              "u": 6} # zero fill to
-port_led = "COM4"
+port_led = "COM9"
 connection_led = serial.Serial(port_led, timeout=1, baudrate=9600)
 
 def send_command(cmd:str,

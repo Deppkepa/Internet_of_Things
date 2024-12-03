@@ -21,7 +21,7 @@ h.update(str(mac).encode())
 pub_id = h.hexdigest()[:10]
 print(f"Listem me at id {pub_id}")
 
-client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION1, pub_id)
+client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2, pub_id)
 
 print("Connecting to broker", broker)
 print(client.connect(broker))
