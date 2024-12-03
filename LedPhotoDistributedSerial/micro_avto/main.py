@@ -4,7 +4,7 @@ import time
 responses = {"d": 7,
              "u": 6,
              "p": 4} # zero fill to
-port_led = "COM9"
+port_led = "COM4"
 port_photo = "COM8"
 connection_led = serial.Serial(port_led, timeout=1, baudrate=9600)
 connection_photo = serial.Serial(port_photo, timeout=1, baudrate=9600)

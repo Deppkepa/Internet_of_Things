@@ -11,7 +11,7 @@ responses = {"d": 7,
              "p": 4} # zero fill to
 
 port_photo = "COM10"
-connection_photo = serial.Serial(port_photo, timeout=1)
+connection_photo = serial.Serial(port_photo, timeout=1, baudrate=9600)
 
 broker = "broker.emqx.io"
 
