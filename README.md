@@ -8,6 +8,7 @@
 3. [LedPhotoDistributedSerial](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedPhotoDistributedSerial)
 4. [MQTT](https://github.com/Deppkepa/Internet_of_Things/tree/main/MQTT)
 5. [LedMatrix8x8](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix8x8)
+6. [LedMatrix](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
