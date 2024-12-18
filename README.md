@@ -7,6 +7,7 @@
 2. Детектор источника света [light_source_detector](https://github.com/Deppkepa/Internet_of_Things/tree/main/light_source_detector)
 3. [LedPhotoDistributedSerial](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedPhotoDistributedSerial)
 4. [MQTT](https://github.com/Deppkepa/Internet_of_Things/tree/main/MQTT)
+5. [LedMatrix8x8](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix8x8)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
@@ -98,3 +99,18 @@
  6. Прошить плату светодиода (`Led.ino`), а затем запустить код `sub.py`. Эти файлы отвечают за светодиод. (не забыть поменять "COM" в `sub.py`)
  7. Подождать пока найдётся `pub_id`
  8. Выбрать топик (`instant`, `averge`, `min_max`)
+
+## 5. LedMatrix 8x8
+**Реализация:**
+
+**Принципиальная схема соединения:**
+
+![картинка 9](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/led%20matrix-2.png)
+
+**Сборка в симуляторе:**
+
+Нет возможности представить.
+
+**Результат представлен в виде видео по сылке в яндекс облако:** 
+
+
