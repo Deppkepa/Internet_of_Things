@@ -50,82 +50,26 @@ void draw(int m[8][8]){
     switch (i) {
       case 0: 
         digitalWrite(PIN_9, HIGH);
-        digitalWrite(PIN_10, LOW);
-        digitalWrite(PIN_14, LOW);
-        digitalWrite(PIN_15, LOW);
-        digitalWrite(PIN_7, LOW);
-        digitalWrite(PIN_4, LOW);
-        digitalWrite(PIN_3, LOW);
-        digitalWrite(PIN_12, LOW);
         break;
       case 1:
-        digitalWrite(PIN_9, LOW);
         digitalWrite(PIN_10, HIGH);
-        digitalWrite(PIN_14, LOW);
-        digitalWrite(PIN_15, LOW);
-        digitalWrite(PIN_7, LOW);
-        digitalWrite(PIN_4, LOW);
-        digitalWrite(PIN_3, LOW);
-        digitalWrite(PIN_12, LOW);
         break;
       case 2:
-        digitalWrite(PIN_9, LOW);
-        digitalWrite(PIN_10, LOW);
         digitalWrite(PIN_14, HIGH);
-        digitalWrite(PIN_15, LOW);
-        digitalWrite(PIN_7, LOW);
-        digitalWrite(PIN_4, LOW);
-        digitalWrite(PIN_3, LOW);
-        digitalWrite(PIN_12, LOW);
         break;
       case 3:
-        digitalWrite(PIN_9, LOW);
-        digitalWrite(PIN_10, LOW);
-        digitalWrite(PIN_14, LOW);
         digitalWrite(PIN_15, HIGH);
-        digitalWrite(PIN_7, LOW);
-        digitalWrite(PIN_4, LOW);
-        digitalWrite(PIN_3, LOW);
-        digitalWrite(PIN_12, LOW);
         break; 
       case 4:
-        digitalWrite(PIN_9, LOW);
-        digitalWrite(PIN_10, LOW);
-        digitalWrite(PIN_14, LOW);
-        digitalWrite(PIN_15, LOW);
-        digitalWrite(PIN_7, HIGH);
-        digitalWrite(PIN_4, LOW);
-        digitalWrite(PIN_3, LOW);
-        digitalWrite(PIN_12, LOW);      
+        digitalWrite(PIN_7, HIGH);  
         break;
       case 5:
-        digitalWrite(PIN_9, LOW);
-        digitalWrite(PIN_10, LOW);
-        digitalWrite(PIN_14, LOW);
-        digitalWrite(PIN_15, LOW);
-        digitalWrite(PIN_7, LOW);
         digitalWrite(PIN_4, HIGH);
-        digitalWrite(PIN_3, LOW);
-        digitalWrite(PIN_12, LOW);
         break;
       case 6:
-        digitalWrite(PIN_9, LOW);
-        digitalWrite(PIN_10, LOW);
-        digitalWrite(PIN_14, LOW);
-        digitalWrite(PIN_15, LOW);
-        digitalWrite(PIN_7, LOW);
-        digitalWrite(PIN_4, LOW);
         digitalWrite(PIN_3, HIGH);
-        digitalWrite(PIN_12, LOW);
         break;
       case 7:
-        digitalWrite(PIN_9, LOW);
-        digitalWrite(PIN_10, LOW);
-        digitalWrite(PIN_14, LOW);
-        digitalWrite(PIN_15, LOW);
-        digitalWrite(PIN_7, LOW);
-        digitalWrite(PIN_4, LOW);
-        digitalWrite(PIN_3, LOW);
         digitalWrite(PIN_12, HIGH);
         break;
     }
@@ -139,6 +83,15 @@ void draw(int m[8][8]){
     digitalWrite(PIN_11,!m[i][6]); //столбец 7
     digitalWrite(PIN_16,!m[i][7]); //столбец 8 
     delay(1);
+    digitalWrite(PIN_9, LOW);
+    digitalWrite(PIN_10, LOW);
+    digitalWrite(PIN_14, LOW);
+    digitalWrite(PIN_15, LOW);
+    digitalWrite(PIN_7, LOW);
+    digitalWrite(PIN_4, LOW);
+    digitalWrite(PIN_3, LOW);
+    digitalWrite(PIN_12, LOW);
+    
     
   }
 }
