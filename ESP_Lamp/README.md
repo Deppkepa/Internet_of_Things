@@ -18,7 +18,7 @@ def on_message(client, userdata, message):
     data = str(message.payload.decode("utf-8"))
     print("received message =", data)
 
-client= paho.Client("isu100123") 
+client= paho.Client() 
 client.on_message=on_message
 
 print("Connecting to broker",broker)
@@ -39,7 +39,7 @@ import random
 
 broker="broker.emqx.io"
 
-client= client.Client('isu10012300')
+client= client.Client()
 
 print("Connecting to broker",broker)
 print(client.connect(broker))
