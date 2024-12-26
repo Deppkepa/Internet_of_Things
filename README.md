@@ -9,6 +9,7 @@
 4. [MQTT](https://github.com/Deppkepa/Internet_of_Things/tree/main/MQTT)
 5. [LedMatrix8x8](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix8x8)
 6. [LedMatrix](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix)
+7. [ESP_Lamp](https://github.com/Deppkepa/Internet_of_Things/tree/main/ESP_Lamp)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
@@ -123,9 +124,20 @@
 + сборку светодиода можно посмотреть выше
 
 **Сборка в симуляторе:**
-
 Нет возможности представить.
 
 **Результат представлен в виде видео по сылке в яндекс облако:**  https://disk.yandex.ru/d/Azr1dP0dscmzMQ
+
+## 7. ESP_Lamp
+**Реализация:**
+
+**Принципиальная схема соединения:**
+Вам понадобится только плата esp8266 и компьютер с программой
+
+
+
+**Результат представлен в виде видео по сылке в яндекс облако:**  https://disk.yandex.ru/d/4ilGFM3DnPwFMA
+
+
 
 
