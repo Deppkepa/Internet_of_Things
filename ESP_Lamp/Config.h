@@ -44,6 +44,7 @@ bool wifi_connected=false;
 bool mqtt_connected=false;
 bool AP_UP=false;
 bool cant_connect_wifi=false;
+bool connected_wifi_has_no_internet=false;
 
 int state=no_internet;
 

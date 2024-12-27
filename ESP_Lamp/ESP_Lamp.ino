@@ -1,11 +1,13 @@
 #include "Config.h"
 #include <EEPROM.h>
+#include <WiFiClient.h>
 #include "WIFI.h"
 #include "Server.h"
 #include "MQTT.h"
 
 unsigned long previousMillis = 0;
 unsigned long currentMillis = millis();
+unsigned long last_checked_wifi = 0;
 
 
 int blinkCount = 0;
@@ -77,9 +79,39 @@ void manage_led(){
   
 }
 
+bool checkWifi(){
+   WiFiClient client;
+   if(client.connect("www.google.com",80)){
+      client.print(String("GET / HTTP/1.1\n")+"Host: www.google.com\n"+"Connection: close\n\n");
+      unsigned long startTime = millis();
+      while(client.connected() && (millis()-startTime<5000)){
+          if(client.available()){
+            //String line=client.readStringUntil('n');
+            return true;
+            }  
+      }
+      client.stop(); 
+   } else {
+      return false;
+    }
+  return false;
+}
+
 void loop(void){
   server.handleClient(); 
   if (wifi_connected) { 
+    if(millis() - last_checked_wifi>=10000 || last_checked_wifi==0){
+      last_checked_wifi=millis();
+      if(!checkWifi()){
+          mqtt_connected=false;
+          wifi_connected=false;
+          mqtt_connected=false;
+          AP_UP=false;
+          cant_connect_wifi=false;
+          connected_wifi_has_no_internet=true;
+          Serial.println("No Internet Access. Creating AccessPoint");
+      } 
+    }
     if(mqtt_connected){
       state=internet_broker;
       mqtt_cli.loop();
@@ -90,6 +122,10 @@ void loop(void){
       mqtt_cli.subscribe("esp8266/command");
     }
   } else {
+    if(connected_wifi_has_no_internet){
+      connected_wifi_has_no_internet=false;
+      WIFI_init(true);  
+    }
     state=no_internet;
   }
   currentMillis = millis();
