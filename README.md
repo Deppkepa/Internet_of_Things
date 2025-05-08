@@ -163,8 +163,8 @@
 
 **Результат представлен в виде видео по сылке в яндекс облако:**  
 
-- Даша:
-- Паша: 
+- Даша: https://disk.yandex.ru/d/6R_b9pG8yUK1cw
+- Паша: https://disk.yandex.ru/d/5e9J6COmnu5Bjg
 
 
 
