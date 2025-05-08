@@ -3,6 +3,7 @@
 
 **Содержание:**
 
+**5 семестр**
 1. Светофор [traffic_light](https://github.com/Deppkepa/Internet_of_Things/tree/main/traffic_light)
 2. Детектор источника света [light_source_detector](https://github.com/Deppkepa/Internet_of_Things/tree/main/light_source_detector)
 3. [LedPhotoDistributedSerial](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedPhotoDistributedSerial)
@@ -10,6 +11,9 @@
 5. [LedMatrix8x8](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix8x8)
 6. [LedMatrix](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix)
 7. [ESP_Lamp](https://github.com/Deppkepa/Internet_of_Things/tree/main/ESP_Lamp)
+
+**6 семестр**
+1. [ButtonBounceProcessing](https://github.com/Deppkepa/Internet_of_Things/tree/main/Bounce_Processing)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
@@ -134,9 +138,36 @@
 **Принципиальная схема соединения:**
 Вам понадобится только плата esp8266 и компьютер с программой
 
-
-
 **Результат представлен в виде видео по сылке в яндекс облако:**  https://disk.yandex.ru/d/4ilGFM3DnPwFMA
+
+# 6 семестр
+
+## 1. ButtonBounceProcessing
+**Примечания:**
+
+- Это задание делалось индивидуально каждым участником репозитория. Поэтому, чтобы не создавать отдельный репозиторий для соавтора, было принято решение создать две папки с вариантами решения обоих участников.
+- Схемы и сборки использовались обоими участниками
+
+**Реализация:**
+
+**Принципиальная схема соединения:**
+
+![картинка 11](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/Button%20(ручками).jpg)
+
+
+**Сборка в симуляторе:**
+
+Для тестирования кода на дребезг использовался сайт wokwi и сборка от туда.
+
+![картинка 12](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/Button.png)
+
+**Результат представлен в виде видео по сылке в яндекс облако:**  
+
+- Даша:
+- Паша: 
+
+
+
 
 
 
