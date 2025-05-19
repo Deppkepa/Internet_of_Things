@@ -242,7 +242,7 @@ file: `slave.ino`
 
 **Результат представлен в виде симуляции на сайте tinkercad:**  
 
-https://www.tinkercad.com/things/2MESM0L3w6Q-h-bridge/editel?returnTo=%2Fthings%2F2MESM0L3w6Q-h-bridge
+https://www.tinkercad.com/things/2MESM0L3w6Q-h-bridge?sharecode=elsh0bsA0cope7HGBIOnmNCZTBlehkitVAhbjqIdsJ0
 
 
 
