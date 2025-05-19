@@ -4,7 +4,10 @@ struct Adress {
   int address;
 };
 
-
+struct Last_messager {
+  int receiver; // кому
+  int last_sender; // кто последний раз написал по адресу receiver
+};
 
 // Объявляем массив словаря
 Adress tab_name[] = {
@@ -15,11 +18,19 @@ Adress tab_name[] = {
   */
 };
 
-
+Last_messager tab_messager[] = {
+  {9, 9},
+  {10,10},
+  {11, 11}/*
+  {adress_number, adress_number}
+  */
+};
 
 const int size = sizeof(tab_name) / sizeof(tab_name[0]);
+const int size_last_message=sizeof(tab_messager)/sizeof(tab_messager[0]);
 String name = "";
 String message = "";
+int slave_last = -1;
 
 void setup() {
   Serial.begin(9600);
@@ -28,10 +39,9 @@ void setup() {
 
 void loop() {
   // Отправляем сообщения слейвам
-  
-  sendMessageToSlave(9);
-  sendMessageToSlave(10);
-  sendMessageToSlave(11);
+  for (int i=0; i<size;i++){
+    sendMessageToSlave(tab_name[i].address);
+  }
 
   delay(2000); // интервал между циклами
 }
@@ -56,12 +66,28 @@ void sendMessageToSlave(uint8_t address) {
         Serial.println(parsedAddress);
         String replyMsg = "От " + getNameByAddress(address) + ": " + message;
         // Отправляем ответ по адресу
-        
+        for (int i=0; i<size_last_message;i++){
+          if (tab_messager[i].receiver==parsedAddress){
+            tab_messager[i].last_sender=address;
+            break;
+          }
+        }
         Wire.beginTransmission(parsedAddress);
         Wire.write(replyMsg.c_str());
         Wire.endTransmission();
-      }
-      
+      } else {
+        for (int i=0; i<size_last_message;i++){
+          if (tab_messager[i].receiver==address){
+            parsedAddress=tab_messager[i].last_sender;
+            break;
+          }
+        }
+        String replyMsg = "От " + getNameByAddress(address) + ": " + msg;
+        Wire.beginTransmission(parsedAddress);
+        Wire.write(replyMsg.c_str());
+        Wire.endTransmission();
+        Serial.println("Noname");
+      }    
   } else {
     Serial.print("Нет сообщения от слейва "); Serial.println(address);
   }
