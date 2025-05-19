@@ -11,9 +11,9 @@
 5. [LedMatrix8x8](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix8x8)
 6. [LedMatrix](https://github.com/Deppkepa/Internet_of_Things/tree/main/LedMatrix)
 7. [ESP_Lamp](https://github.com/Deppkepa/Internet_of_Things/tree/main/ESP_Lamp)
-
 **6 семестр**
 1. [ButtonBounceProcessing](https://github.com/Deppkepa/Internet_of_Things/tree/main/Bounce_Processing)
+2. [I2C_chat](https://github.com/Deppkepa/Internet_of_Things/tree/main/I2C_chat)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
@@ -166,7 +166,60 @@
 - Даша: https://disk.yandex.ru/d/6R_b9pG8yUK1cw
 - Паша: https://disk.yandex.ru/i/b0HSoYalCHxpFA
 
+## 2. I2C_chat
+**Реализация:**
+**Описание протокола обмена для подключения устройств по I2C**
 
+Данный протокол предназначен для обмена данными между мастером (который может выступать микроконтроллер) и ведомыми устройствами (например, датчиками или исполнительными модулями) по интерфейсу I2C. Описание предназначено для разработчиков сторонних устройств, желающих интегрироваться в нашу сеть.
+
+**Аппаратные требования**
+
+- Ваша плата/устройство должно поддерживать I2C (режим slave).
+
+**Адресация устройств**
+
+- Каждый slave-узел имеет уникальный адрес на шине I2C. Из-за чего адрес нового slave устройства задаётся в файле `master.ino` в структурах `tab_name`,  `tab_messager`. На картинке представлен кусочек кода куда надо вставить адрес устройства и в каком формате.
+- Адресс slave устройств должен быть обязательно уникальным.
+  
+![картинка 13](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/Пример%20кода%20I2C.png)
+
+**Формат сообщений**
+
+Обмен состоит из пакетов — буфер небольшой, примерно 32 байта.
+
+**Формат запроса**
+
+Из любого slave устройства который инициализирован в табличке в мастере. Пишем другому slave устройству. Формат обращения в slave устройствах. <Имя кому отправить сообщение>@ <сообщение>.Тут обязательно должен присутвовать разделитель. Чтобы ответить slave устройству на сообщение отправляется сообщение формата. <Сообщение>.
+
+Например: 
+
+file: `slave.ino`
+
+Пишет в серийную консоль: `Dasha@ Hey bro how do you do?` (длина сообщения 29)
+
+file: `slave_dasha.ino`
+
+Появляется надпись в серийной консоли: `От Pasha: Hey bro how do you do?`
+В ответ слейву отправляем: `Hello` (длина сообщения 5)
+
+file: `slave.ino`
+
+Появляется надпись в серийной консоли: `От Dasha: Hello` 
+
+
+**Важно!** мастер от пользователя никакие сообщения не принимает.
+
+**Принципиальная схема соединения:**
+
+![картинка 14](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/микроконтролеры.jpg)
+
+**Сборка в симуляторе:**
+
+![картинка 15](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/microcontrollers.png)
+
+**Результат представлен в виде видео по сылке в яндекс облако:**  
+
+Ссылка демонстрацию работы программы: https://disk.yandex.ru/d/lrH28QFnNIBVCA
 
 
 
