@@ -15,6 +15,7 @@
 **6 семестр**
 1. [ButtonBounceProcessing](https://github.com/Deppkepa/Internet_of_Things/tree/main/Bounce_Processing)
 2. [I2C_chat](https://github.com/Deppkepa/Internet_of_Things/tree/main/I2C_chat)
+3. [H-bridge](https://github.com/Deppkepa/Internet_of_Things/tree/main/H-bridge)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
