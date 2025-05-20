@@ -247,6 +247,9 @@ https://www.tinkercad.com/things/2MESM0L3w6Q-h-bridge?sharecode=elsh0bsA0cope7HG
 ## 4. PROJECT
 **Описание:**
 
+![картинка 19](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/PROJECT1.jpg)
+![картинка 20](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/PROJECT2.jpg)
+
 **Use-case:**
 
 **Сборка**
