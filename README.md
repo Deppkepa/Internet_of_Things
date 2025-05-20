@@ -18,6 +18,7 @@
 3. [H-bridge](https://github.com/Deppkepa/Internet_of_Things/tree/main/H-bridge)
 4. [PROJECT](https://github.com/Deppkepa/Internet_of_Things/tree/main/PROJECT)
 5. [ButtonMatrix](https://github.com/Deppkepa/Internet_of_Things/tree/main/ButtonMatrix)
+6. [SPI](https://github.com/Deppkepa/Internet_of_Things/tree/main/SPI)
 
 **Примечания:**
 1. Ссылки на видео реализацию все разные!
@@ -261,6 +262,19 @@ https://www.tinkercad.com/things/2MESM0L3w6Q-h-bridge?sharecode=elsh0bsA0cope7HG
 **Результат представлен в виде симуляции на сайте tinkercad:**  
 
 https://www.tinkercad.com/things/2gjYw5cMepE-buttonmatrix
+
+## 6. SPI
+**Реализация:**
+
+**Сборка в симуляторе:**
+
+![картинка 18](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/spi1.png)
+
+
+**Результат представлен в виде демонстраии по ссылке:**  
+https://disk.yandex.ru/i/-hYSn4lXj67lSg
+
+
 
 
 
