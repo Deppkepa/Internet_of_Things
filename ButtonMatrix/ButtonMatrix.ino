@@ -1,7 +1,6 @@
 #define NROWS 3
 #define NCOLS 3
-#define SCAN_INTERVAL 10
-
+#define SCAN_INTERVAL 1 
 
 const int rowPins[NROWS] = {2, 3, 4};
 
@@ -14,6 +13,9 @@ unsigned long startTime[NROWS][NCOLS] = {0};
 unsigned long duration[NROWS][NCOLS] = {0};
 
 volatile int currentRow = 0;
+volatile bool isScanning = true;
+unsigned long lastScanTime = 0;
+const int MAIN_DELAY = 50;
 
 
 void setupTimer() {
@@ -21,38 +23,50 @@ void setupTimer() {
   TCCR1A = 0;
   TCCR1B = 0;
   TCNT1 = 0;
-  OCR1A = 15624;
-  TCCR1B |= (1 << WGM12);
-  TCCR1B |= (1 << CS12) | (1 << CS10);
+  OCR1A = 62; 
+  TCCR1B |= (1 << WGM12); 
+  TCCR1B |= (1 << CS12); 
   TIMSK1 |= (1 << OCIE1A);
   interrupts();
 }
 
 
 ISR(TIMER1_COMPA_vect) {
-  currentRow = (currentRow + 1) % NROWS;
+  if (!isScanning && millis() > lastScanTime + MAIN_DELAY) {
+    isScanning = true;
+  }
+
+  if (isScanning) {
+    updateButtonState(); 
+    currentRow = (currentRow + 1) % NROWS; 
+  }
+
+  if (currentRow == 0 && isScanning) {
+    isScanning = false; 
+    lastScanTime = millis();
+    printButtonChanges(); 
+  }
 }
 
 void setup() {
   Serial.begin(9600);
   
   
-  for (int i = 0; i < NROWS; i++) {
-    pinMode(rowPins[i], OUTPUT);
-    digitalWrite(rowPins[i], HIGH);
-  }
+  DDRD |= (1 << rowPins[0]) | (1 << rowPins[1]) | (1 << rowPins[2]);
+  PORTD |= (1 << rowPins[0]) | (1 << rowPins[1]) | (1 << rowPins[2]); 
   
   
-  for (int i = 0; i < NCOLS; i++) {
-    pinMode(colPins[i], INPUT_PULLUP);
-  }
+  DDRD &= ~((1 << colPins[0]) | (1 << colPins[1]) | (1 << colPins[2]));
+  PORTD |= (1 << colPins[0]) | (1 << colPins[1]) | (1 << colPins[2]); 
   
-  setupTimer();
+  setupTimer(); 
 }
 
 void updateButtonState() {
   
-  PORTD &= ~(1 << rowPins[currentRow]); 
+  PORTD |= (1 << rowPins[0]) | (1 << rowPins[1]) | (1 << rowPins[2]);
+  
+  PORTD &= ~(1 << rowPins[currentRow]);
   
   
   for (int col = 0; col < NCOLS; col++) {
@@ -76,9 +90,6 @@ void updateButtonState() {
     }
     lastButtonState[currentRow][col] = state;
   }
-  
-  
-  PORTD |= (1 << rowPins[currentRow]);
 }
 
 void printButtonChanges() {
@@ -113,6 +124,5 @@ void printButtonChanges() {
 }
 
 void loop() {
-  updateButtonState(); 
-  printButtonChanges();
+  
 }
