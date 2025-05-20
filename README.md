@@ -254,7 +254,7 @@ https://www.tinkercad.com/things/2MESM0L3w6Q-h-bridge?sharecode=elsh0bsA0cope7HG
 Состоит из TFT дисплея 1.8'' ST7735S, wemos D1 mini, корпуса и шнура питания.
 ![картинка 21](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/PROJECT_scheme2.jpg)
 
-В проекте присутствует 7 модулей:
+В проекте присутствует 7 модулей:PROJECT.ino, Config.h, Display.h, Server.h, WeatherAPI.h, WeatherIcons.h, WIFI.h
 ![картинка 22](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/PROJECT_scheme1.png)
 
 Wemos d1 mini и TFT 1.8'' ST7735S сообщаются по SPI
