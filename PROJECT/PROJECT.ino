@@ -41,9 +41,9 @@ void loop() {
   server.handleClient();
 
   if (AP_UP) {
-    if (lastStatus != "Connect to ESP_WiFi") { 
-      showStatus("Connect to ESP_WiFi");
-      lastStatus = "Connect to ESP_WiFi";
+    if (lastStatus != "Connect to ESP_WiFi and go to "+ip_) { 
+      showStatus("Connect to ESP_WiFi and go to "+ip_);
+      lastStatus = "Connect to ESP_WiFi and go to "+ip_;
     }
   } else if (!wifi_connected) {
     if (lastStatus != "No Internet") {
@@ -66,6 +66,7 @@ void loop() {
         if (lastStatus != "API Error") {
           showStatus("API Error");
           lastStatus = "API Error";
+          
         }
       }
     }
