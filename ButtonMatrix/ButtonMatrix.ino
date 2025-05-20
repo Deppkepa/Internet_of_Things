@@ -1,41 +1,118 @@
-#define RON_2 2
-#define RON_3 3
-#define RON_4 4
+#define NROWS 3
+#define NCOLS 3
+#define SCAN_INTERVAL 10
 
-#define COL_5 5
-#define COL_6 6
-#define COL_7 7 
 
-void setup()
-{
-  pinMode(RON_2, OUTPUT);
-  pinMode(RON_3, OUTPUT);
-  pinMode(RON_4, OUTPUT);
-  
-  pinMode(COL_5, INPUT_PULLUP);
-  pinMode(COL_6, INPUT_PULLUP);
-  pinMode(COL_7, INPUT_PULLUP);
-  
-  Serial.begin(9600);
+const int rowPins[NROWS] = {2, 3, 4};
+
+const int colPins[NCOLS] = {5, 6, 7};
+
+
+bool buttonState[NROWS][NCOLS] = {0};
+bool lastButtonState[NROWS][NCOLS] = {0};
+unsigned long startTime[NROWS][NCOLS] = {0};
+unsigned long duration[NROWS][NCOLS] = {0};
+
+volatile int currentRow = 0;
+
+
+void setupTimer() {
+  noInterrupts();
+  TCCR1A = 0;
+  TCCR1B = 0;
+  TCNT1 = 0;
+  OCR1A = 15624;
+  TCCR1B |= (1 << WGM12);
+  TCCR1B |= (1 << CS12) | (1 << CS10);
+  TIMSK1 |= (1 << OCIE1A);
+  interrupts();
 }
 
-void loop()
-{
-  digitalWrite(RON_2, LOW);
-  digitalWrite(RON_3, HIGH);
-  digitalWrite(RON_4, HIGH);
+
+ISR(TIMER1_COMPA_vect) {
+  currentRow = (currentRow + 1) % NROWS;
+}
+
+void setup() {
+  Serial.begin(9600);
   
-  bool btn1_state = digitalRead(COL_5);
-  bool btn2_state = digitalRead(COL_6);
-  bool btn3_state = digitalRead(COL_7);
-  if (btn1_state == false) {
-  	Serial.println("Buttom 1 presed");
+  
+  for (int i = 0; i < NROWS; i++) {
+    pinMode(rowPins[i], OUTPUT);
+    digitalWrite(rowPins[i], HIGH);
   }
-  if (btn2_state == false) {
-  	Serial.println("Buttom 2 presed");
+  
+  
+  for (int i = 0; i < NCOLS; i++) {
+    pinMode(colPins[i], INPUT_PULLUP);
   }
-  if (btn3_state == false) {
-  	Serial.println("Buttom 3 presed");
+  
+  setupTimer();
+}
+
+void updateButtonState() {
+  
+  PORTD &= ~(1 << rowPins[currentRow]); 
+  
+  
+  for (int col = 0; col < NCOLS; col++) {
+    bool state = !(PIND & (1 << colPins[col])); 
+    buttonState[currentRow][col] = state;
+    
+    
+    if (state && !lastButtonState[currentRow][col]) {
+      startTime[currentRow][col] = millis();
+    }
+    
+    else if (!state && lastButtonState[currentRow][col]) {
+      duration[currentRow][col] = millis() - startTime[currentRow][col];
+      Serial.print("Button ");
+      Serial.print(currentRow * NCOLS + col + 1);
+      Serial.print(" released: Duration = ");
+      Serial.print(duration[currentRow][col]);
+      Serial.print(" ms, Start time = ");
+      Serial.print(startTime[currentRow][col]);
+      Serial.println(" ms");
+    }
+    lastButtonState[currentRow][col] = state;
   }
-  delay(50);
+  
+  
+  PORTD |= (1 << rowPins[currentRow]);
+}
+
+void printButtonChanges() {
+  static bool lastPrintedState[NROWS][NCOLS] = {0};
+  bool changed = false;
+  
+  
+  for (int row = 0; row < NROWS; row++) {
+    for (int col = 0; col < NCOLS; col++) {
+      if (buttonState[row][col] != lastPrintedState[row][col]) {
+        changed = true;
+        lastPrintedState[row][col] = buttonState[row][col];
+      }
+    }
+  }
+  
+  if (changed) {
+    Serial.print("Pressed buttons: ");
+    bool first = true;
+    for (int row = 0; row < NROWS; row++) {
+      for (int col = 0; col < NCOLS; col++) {
+        if (buttonState[row][col]) {
+          if (!first) Serial.print(", ");
+          Serial.print(row * NCOLS + col + 1);
+          first = false;
+        }
+      }
+    }
+    if (first) Serial.print("None");
+    Serial.println();
+  }
+}
+
+void loop() {
+  updateButtonState(); 
+  printButtonChanges();
 }
