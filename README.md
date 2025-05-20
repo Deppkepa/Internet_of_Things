@@ -245,9 +245,11 @@ file: `slave.ino`
 https://www.tinkercad.com/things/2MESM0L3w6Q-h-bridge?sharecode=elsh0bsA0cope7HGBIOnmNCZTBlehkitVAhbjqIdsJ0
 
 ## 4. PROJECT
-**Реализация:**
+**Описание:**
 
-**Сборка в симуляторе:**
+**Use-case:**
+
+**Сборка**
 
 ## 5. ButtonMatrix
 **Реализация:**
@@ -266,7 +268,7 @@ https://www.tinkercad.com/things/2gjYw5cMepE-buttonmatrix
 ## 6. SPI
 **Реализация:**
 
-**Сборка в симуляторе:**
+**Сборка:**
 
 ![картинка 18](https://github.com/Deppkepa/Internet_of_Things/blob/main/images/spi1.png)
 
