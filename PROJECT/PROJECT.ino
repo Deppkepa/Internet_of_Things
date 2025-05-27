@@ -11,6 +11,7 @@
 unsigned long previousMillis = 0;
 unsigned long lastWeatherUpdate = 0;
 String lastStatus = "";
+int apiErrorCount = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -21,10 +22,14 @@ void setup() {
 
   String name = readStringFromEEPROM(21, 32);
   String password = readStringFromEEPROM(210, 32);
+  String savedCity = readStringFromEEPROM(250, 32);
   byte first;
   EEPROM.get(0, first);
   EEPROM.end();
-
+  if (savedCity!=""){
+    CITY=savedCity;
+    WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=" + CITY + "&appid=" + API_KEY + "&units=metric"+"&lang=en";
+  }
   if (name != "" && password != "" && first == 0xAA) {
     ssidCLI = name.c_str();
     passwordCLI = password.c_str();
@@ -62,11 +67,18 @@ void loop() {
       if (weatherData != "") {
         displayWeather(weatherData);
         lastStatus = ""; 
+        apiErrorCount = 0;
       } else {
         if (lastStatus != "API Error") {
           showStatus("API Error");
-          lastStatus = "API Error";
-          
+          lastStatus = "API Error";          
+        }
+        apiErrorCount++;
+        if (apiErrorCount >= MAX_API_ERRORS){
+          showStatus("Too many API errors. Starting AP...");
+          lastStatus = "Too many API errors. Starting AP...";
+          apiErrorCount = 0;
+          WIFI_init(true);
         }
       }
     }

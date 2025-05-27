@@ -23,6 +23,10 @@ String fetchWeatherData() {
     if (httpCode > 0) {
       if (httpCode == HTTP_CODE_OK) {
         payload = http.getString();
+        if (payload.indexOf("cod") != -1 && payload.indexOf("200") == -1) {
+          Serial.println("API returned error in response");
+          payload = "";
+        }
       }
     } else {
       Serial.printf("GET failed, error: %s\n", http.errorToString(httpCode).c_str());

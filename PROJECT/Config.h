@@ -16,12 +16,15 @@ const char* passwordCLI = "";
 
 // Weather API settings
 const String API_KEY = "24ee95b2cd78b919fa583c775cb4142d";
-const String CITY = "Irkutsk";
-const String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=" + CITY + "&appid=" + API_KEY + "&units=metric"+"&lang=en";
+String CITY = "Irkutsk";
+String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=" + CITY + "&appid=" + API_KEY + "&units=metric"+"&lang=en";
 
 // Intervals
 const unsigned long WEATHER_UPDATE_INTERVAL = 10000;//600000; // 10 минут
 const unsigned long WIFI_CHECK_INTERVAL = 10000; // 10 секунд
+
+// API Error handling
+const int MAX_API_ERRORS = 3;
 
 // Wi-Fi status
 bool AP_UP = false;
@@ -29,7 +32,5 @@ bool wifi_connected = false;
 bool cant_connect_wifi = false;
 
 String ip_="";
-
-
 
 #endif
