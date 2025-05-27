@@ -328,7 +328,12 @@ Wemos d1 mini и TFT 1.8'' ST7735S сообщаются по SPI
    "name": "Province of Turin",
    "cod": 200
 }                    
-```                        
+```
+                  
+**Демонстрация:**
+
+https://disk.yandex.ru/i/_CqILB1kn1J4YA
+
 
 ## 5. ButtonMatrix
 **Реализация:**
